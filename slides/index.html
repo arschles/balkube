@@ -39,6 +39,13 @@
           font-size: 80%;
       }
 
+      .footnote-right{
+          position:absolute;
+          bottom:3em;
+          font-size:80%;
+          right:3em;
+      }
+
       li p {
           line-height: 1.25em;
       }
@@ -96,7 +103,7 @@
 
       .inverse {
           background: #272822;
-          color: #777872;
+          color: #fff;
           text-shadow: 0 0 20px #333;
       }
 
@@ -176,62 +183,59 @@ name: inverse
 layout: true
 class: center, middle
 ---
-# Hi Kubernauts!
+# Kubernetes For App Developers
 
 Aaron Schlesinger
 
-Sr. Cloud Developer Advocate, Microsoft Azure
-
-Emeritus chair, SIG-Service-Catalog
-
+[@arschles](https://twitter.com/arschles)
 
 ???
 
-- Strong opinions in this talk
-- I'm gonna pick on YAML a lot :)
----
-class: center, middle
-
-# We've Got Problems, Peeps
-
 ---
 
-class: inverse
+layout: false
+class: middle, inverse
 
-# Kubernetes Sucks
+.left-column[
+# I Was
+]
+.right-column[
+- Azure Containers
+    - Sr. Engineer(-ing Manager)
+- Co-chair, SIG-Service-Catalog
+    - Now emeritus
 
-.footnote[.red[*] Hot take]
 
----
-class: center, middle
-
-<img src="/sig-ux.png" height="500" />
+#### Hardcore YAML Writer
+]
 
 ???
 
-- It sucks for Developers
-- But why don't we have folks concentrating on developer UX?
+- I'll pick on YAML later :)
 
-Because:
-- We've been focusing on _our_ community
-- We know how to build clusters & distributed systems
-- We need low level access to cluster primitives
-
-So we've been doing the right things
 ---
+layout:false
+class: middle, inverse
 
-class:center,middle
+.left-column[
+# I Am
+]
 
-<img src="/steve-ballmer-developers.jpg" height="500" />
+.right-column[
+- An Advocate for Developers
+- Hardcore app-writer
+
+#### Trying to remember how to write YAML
+]
 
 ???
 
-- But we're only starting to start from the _top_ of the stack
-- What do brand newcomers think?
-- How do they get involved?
-- And not as OSS contributors. As users
+- I'm gonna focus today on the app writer's perspective
+- Not as a SIG leader, core contributor, etc...
+- Because that's who I am now
 
 ---
+
 layout: false
 class: middle
 
@@ -244,12 +248,54 @@ class: middle
 
 - We're an **amazing community**
 
-- We deserve scores more amazing people
+#### But
 
-- We **need** more apps
+- Barrier to entry is crazy for many
 
-- ... Because we want more use cases
+- We need new folks to improve
 ]
+
+???
+
+- Strong opinions in this talk
+- I'm gonna pick on YAML a lot :)
+- But we need to
+
+---
+
+class: center, middle
+
+<img src="/sig-ux.png" height="500" />
+
+???
+
+- Choosing the target audience
+- Designing the UX around that audience
+
+### We've self selected!
+
+---
+class: center, middle
+
+# We Are Operators / DevOps
+
+---
+
+class:center,middle
+
+<img src="/steve-ballmer-developers.jpg" height="500" />
+
+???
+
+- This is how we take the next step
+
+- We need to view Kube from the top of the stack
+
+# Questions to Ask:
+
+- What do brand newcomers think?
+- How do they get involved?
+- And not as OSS contributors. As users
 
 ---
 class: inverse, middle
@@ -306,6 +352,13 @@ class: middle, center
 - We need to distill the concepts, not change the encoding
 
 ---
+
+class: middle, center
+
+# The UX We Have Now
+# Is Assembly Code
+
+---
 # Use Case 1
 
 .left-column[
@@ -350,9 +403,9 @@ Hook up a k8s app to a DB
 - I failed as SIG-Service-Catalog co-chair to make all this simple(r)
 ---
 
-# `athens.azurefd.net`
+# Use Case 3: Athens
 
-Deployed with Helm, to the real interwebs!
+Go dependency proxy. Global deployment with Helm.
 
 
 `values.yaml`:
@@ -379,9 +432,14 @@ storage:
     url: "SET THIS ON THE COMMAND LINE"
 ```
 
+???
+- Taking huge advantage of the "always up" feature of Kubernetes
+- Multiple Kube clusters at a time
+- Not using federation
+
 ---
 
-# `athens.azurefd.net`, part II
+# Athens part II
 
 `templates/`:
 
