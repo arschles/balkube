@@ -359,6 +359,16 @@ class: middle, center
 # Is Assembly Code
 
 ---
+
+class: middle, center, inverse
+
+# Where to Go From Here
+
+???
+
+Use cases to find common problems to solve
+
+---
 # Use Case 1
 
 .left-column[
@@ -377,6 +387,8 @@ Node Developer, launching a prototype in a weekend
 - `helm install`
 - Ingress Controller? HTTPS? Updates?
 ]
+
+???
 
 ---
 
@@ -447,17 +459,40 @@ storage:
 
 ???
 
+# Overview of chart
 - The "main" pod with a second Jaeger one
 - Almost 300 lines of YAML to sort through  (as of Nov. 12, 2018)
 
+# Deploying
+- I manage most deployments
+- Have messed up a lot
+- "Automate it" is obvious response
+    - But then I would have bash scripts to debug
+    - Or a massive CD platform to solve a relatively small problem
+
 ---
-class: inverse, middle, center
+class: inverse, middle
 
-# Our Destination
+.left-column[
+# Patterns
+]
 
-???
+.right-column[
+- Easy to start
 
-- Something about developing with the solution first?
+- Encode best practices
+
+- "Escape hatch" to access power later
+    - Helm charts underneath?
+
+- YAML is not for humans
+]
+
+---
+
+class:middle
+
+# A Toolchain?
 
 ---
 
