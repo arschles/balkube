@@ -23,14 +23,11 @@ service<http:Service> slides bind { port: 9090 } {
     }
     show(endpoint caller, http:Request request, string name) {
         var filename = untaint name;
-        if (lengthof filename == 0) {
-            filename = "index.html";
-        }
         http:Response response = new;
         try {
             response.setFileAsPayload(string `./slides/{{ filename }}`, contentType = "text/html");
         } catch (error err) {
-            io:println(string `error! {{ err.message }}`);
+            io:println(string `error with file ./slides/{{ filename }}. {{ err.message }}`);
         }
     
         _ = caller -> respond(response);
