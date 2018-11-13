@@ -1,6 +1,7 @@
 // A system module containing protocol access constructs
 // Module objects referenced with 'http:' in code
 import ballerina/http;
+import ballerina/io;
 
 @http:ServiceConfig{ basePath: "/" }
 service<http:Service> slides bind { port: 9090 } {
@@ -26,7 +27,11 @@ service<http:Service> slides bind { port: 9090 } {
             filename = "index.html";
         }
         http:Response response = new;
-        response.setFileAsPayload(string `./slides/{{ filename }}`, contentType = "text/html");
+        try {
+            response.setFileAsPayload(string `./slides/{{ filename }}`, contentType = "text/html");
+        } catch (error err) {
+            io:println(string `error! {{ err.message }}`);
+        }
     
         _ = caller -> respond(response);
     }
