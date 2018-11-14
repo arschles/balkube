@@ -22,14 +22,57 @@ service<http:Service> slides bind { port: 9090 } {
         produces: ["text/html"]
     }
     show(endpoint caller, http:Request request, string name) {
-        var filename = untaint name;
         http:Response response = new;
-        try {
-            response.setFileAsPayload(string `./slides/{{ filename }}`, contentType = "text/html");
-        } catch (error err) {
-            io:println(string `error with file ./slides/{{ filename }}. {{ err.message }}`);
+
+        var filename = untaint name;
+        io:ReadableByteChannel byteChannel = io:openReadableFile("./slides/" + filename);
+        io:ReadableCharacterChannel charChannel = new(byteChannel, "UTF-8");
+
+        
+
+        if filename.hasSuffix(".html") {
+            match charChannel.readXml() {
+                error err => {
+                    string s = untaint string`Couldn't read file {{ filename }}: {{ err.message }}`;
+                    response.setTextPayload(s, contentType="text/plain");// but {
+                    //     error e => io:println(string `error with file ./slides/{{ filename }}. {{ err.message }}`);
+                    //     () => 
+                    // }
+                }
+                xml resp => {
+                    try {
+                        response.setXmlPayload(untaint resp, contentType = "text/html");
+                        // response.setFileAsPayload(string `./slides/{{ filename }}`, contentType = "text/html");
+                    } catch (error err) {
+                        io:println(string `error with file ./slides/{{ filename }}. {{ err.message }}`);
+                        response.statusCode = 404;
+                    }
+                }
+            }
+        } else {
+            string cType;
+            if (filename.hasSuffix(".png")) {
+                cType = "image/png";
+            } else if (filename.hasSuffix(".jpg") || filename.hasSuffix(".jpeg")) {
+                cType = "image/jpeg";
+            }
+            try {
+                response.setFileAsPayload(string`./slides/{{ filename }}`, contentType = cType);
+            } catch (error err) {
+                io:println(string`error with file ./slides/{{ filename }}. {{ err.message }}`);
+                response.statusCode = 404;
+            }
         }
     
         _ = caller -> respond(response);
+
+        match charChannel.close() {
+            error e => {}
+            () => {}
+        }
+        match byteChannel.close() {
+            error e => {}
+            () => {}
+        }
     }
 }
