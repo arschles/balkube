@@ -398,21 +398,34 @@ Node Developer, launching a prototype in a weekend
 Hook up a k8s app to a DB
 ]
 
-.right-column[
-- Get user/pass
-- ctrl+C, ctrl+V into `Secret`?
-      - How secure are these?
-      - Do they work with `$CLOUD_KEYSTORE`?
+
+.right-column[- Get user/pass
+
+- copy/paste into `Secret`?
+
 - Dev/test instances
-      - Service catalog?
-- DB Migrations
-      - Init containers
-      - Run a `Job`
+
+- DB Migrations?
 ]
 
 ???
 
 - I failed as SIG-Service-Catalog co-chair to make all this simple(r)
+
+# Questions to ask about `Secret`s
+
+- Where should I store the actual data?
+- How should I get them into my app?
+- How secure are they in the cluster?
+- Do they work with `$CLOUD_KEYSTORE`?
+
+# Notes on DB Migrations
+
+- Talked to some folks @ Helm summit 2018
+- Got 3 answers:
+    - Run migration on every container start
+    - Run migration in an init container
+    - Run migration in a `Job` to completion before deploy
 ---
 
 # Use Case 3: Athens
